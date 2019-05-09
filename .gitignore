@@ -1,0 +1,6 @@
+.vscode
+node_modules
+*.log
+yarn.lock
+*.DS_Store
+**/plate_data/

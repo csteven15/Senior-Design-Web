@@ -1,0 +1,8 @@
+x1: 166.90962099125363
+y1: 136.29737609329447
+x2: 335.2769679300292
+y2: 227.40524781341108
+tag: HTWW69
+isFloridaPlate: false
+isNonStandardDesign: false
+isEdgeInfoObscured: false

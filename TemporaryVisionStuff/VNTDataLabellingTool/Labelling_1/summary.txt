@@ -1,0 +1,49 @@
+652 total files, all from Libra Garage
+
+Using:
+cat * | grep -x "isFloridaPlate.*true" | wc -l
+cat * | grep -x "isFloridaPlate.*false" | wc -l
+
+
+We can see
+607 have "isFloridaPlate" as true, 45 have it as false.
+This means that
+93.10% of the data had Florida plates.
+6.90% of the data had out-of-state plates.
+
+
+Using:
+cat * | grep -x "isNonStandardDesign.*true" | wc -l
+
+We can see
+40 of the 607 florida plates are non-standard design
+This means that
+93.41% of FLORIDA plates have the standard design with the orange.
+6.59% of FLORIDA plates have non-standard design.
+
+If we sum the florida plates with non-standard design and the non-florida plates,
+we see that in total, the plates without a standard florida design are...
+40+45 = 85 plates without standard design
+85/652 = 0.1304
+
+13.04% of ALL PLATES have a design different from the florida orange design
+
+
+Using:
+cat * | grep -x "isEdgeInfoObscured.*true" | wc -l
+cat * | grep -x "isEdgeInfoObscured.*false" | wc -l
+
+We can see
+307 have edge information obscured in some way
+345 do not have edge information obscured in any way
+47.09% have edge information obscured
+52.91% do not have edge information obscured
+
+SUMMARY:
+93.10% of the data had Florida plates.
+6.90% of the data had out-of-state plates.
+93.41% of FLORIDA plates have the standard design with the orange.
+6.59% of FLORIDA plates have non-standard design.
+13.04% of ALL PLATES have a design different from the florida orange design
+47.09% have edge information obscured
+52.91% do not have edge information obscured

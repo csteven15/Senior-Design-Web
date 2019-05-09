@@ -1,0 +1,8 @@
+x1: 149.41690962099125
+y1: 131.1953352769679
+x2: 338.1924198250729
+y2: 236.8804664723032
+tag: 
+isFloridaPlate: false
+isNonStandardDesign: false
+isEdgeInfoObscured: false

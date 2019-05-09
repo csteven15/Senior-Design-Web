@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtLoggedInMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="8dp"
+        android:text="Congrats, you logged in!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        app:layout_constraintEnd_toEndOf="@+id/txtLoggedInMessage"
+        app:layout_constraintStart_toStartOf="@+id/txtLoggedInMessage"
+        app:layout_constraintTop_toBottomOf="@id/txtLoggedInMessage" />
+
+    <ScrollView
+        android:layout_width="368dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtResponseText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Response text will be shown here..." />
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="368dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnSendInitializeUserRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Initialize User Request" />
+
+            <Button
+                android:id="@+id/btnSendGetUserRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Get User [Info] Request" />
+
+            <Button
+                android:id="@+id/btnSendGetFieldRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Get Field Request" />
+
+            <Button
+                android:id="@+id/btnSendAddCarRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Add Car Request" />
+
+            <Button
+                android:id="@+id/btnSendGetCarsRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Get Cars Request" />
+
+            <Button
+                android:id="@+id/btnStressTest1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stress Test 1" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,3672 @@
+{
+	"info": {
+		"_postman_id": "54c1cb07-1abf-4591-a2c1-8217faf7e356",
+		"name": "Virtually No Tag Collection",
+		"description": "This collection contains all requests needed to debug and test the Virtually No Tag HTTPS API. Contains appropriate test scripts as well.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/users/initializeNewUser",
+			"item": [
+				{
+					"name": "Initialize a Test User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"testuser1628\",\n\t\"password\": \"password\",\n\t\"firstName\": \"TestFN\",\n\t\"middleInitial\": \"T\",\n\t\"lastName\": \"TestLN\",\n\t\"emailAddress\": \"test@website.com\",\n\t\"phoneNumber\": \"1234567890\",\n\t\"addressLine1\": \"123 Street Street\",\n\t\"addressLine2\": \"AddressLine2\",\n\t\"city\": \"Orlando\",\n\t\"state\": \"FL\",\n\t\"zipCode\": \"32779\",\n\t\"accountLevel\": \"100\",\n\t\"allowedPermits\": [{\"permitType\": \"D\"}]\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/initializeNewUser",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"initializeNewUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Initialize Philip",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"ph644520\",\n\t\"password\": \"password\",\n\t\"firstName\": \"Philip\",\n\t\"middleInitial\": \"J\",\n\t\"lastName\": \"Rodriguez\",\n\t\"emailAddress\": \"philiprodriguez@knights.ucf.edu\",\n\t\"phoneNumber\": \"4075382460\",\n\t\"addressLine1\": \"141 Wisteria Dr\",\n\t\"city\": \"Longwood\",\n\t\"state\": \"FL\",\n\t\"zipCode\": \"32779\",\n\t\"accountLevel\": \"300\",\n\t\"allowedPermits\": [{\"permitType\": \"D\"}]\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/initializeNewUser",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"initializeNewUser"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			}
+		},
+		{
+			"name": "/api/users/specific/[username]",
+			"item": [
+				{
+					"name": "Fetch Existing Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b85f023d-5855-49da-9086-c20c46ff4d40",
+								"exec": [
+									"let usernameToUse = pm.environment.get(\"username\");",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has a JSON body\", function () {",
+									"    pm.response.to.have.jsonBody();",
+									"});",
+									"",
+									"pm.test(\"Response echoes the username\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.username).to.eql(usernameToUse);",
+									"});",
+									"",
+									"pm.test(\"Response has a first name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.firstName.length > 0).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response has a last name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.lastName.length > 0).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response has an email\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.emailAddress.length > 0).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response has a phone\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.phoneNumber.length > 0).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response has an address line 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.addressLine1.length > 0).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response has a city\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.city.length > 0).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response has a state\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.state.length > 0).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response has a zip\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.zipCode.length > 0).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response does not have cars\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.cars === undefined).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response has allowed permits\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.allowedPermits !== null).to.eql(true);",
+									"    pm.expect(jsonData.allowedPermits.length >= 0).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response has account level\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.accountLevel > 0).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}"
+							]
+						},
+						"description": "Fetch all infor of a specific user..."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/users/specific/[username]/field/[field]",
+			"item": [
+				{
+					"name": "Fetch First Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3a511c93-46b6-412f-a164-e8214c3f6eb9",
+								"exec": [
+									"pm.test(\"Check that status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Check that response contains only field and value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    let count = 0;",
+									"    for (let key in jsonData) {",
+									"        pm.expect(key === \"field\" || key === \"value\").to.eql(true);",
+									"        count++;",
+									"    }",
+									"    pm.expect(count).to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Check echoed field is firstName\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.field).to.eql(\"firstName\");",
+									"});",
+									"",
+									"pm.test(\"Check value is correct\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value).to.eql(\"TestFN\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/field/firstName",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"field",
+								"firstName"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Account Level",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0099bc37-6c32-481c-a139-93e332666a93",
+								"exec": [
+									"pm.test(\"Check that status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Check that response contains only field and value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    let count = 0;",
+									"    for (let key in jsonData) {",
+									"        pm.expect(key === \"field\" || key === \"value\").to.eql(true);",
+									"        count++;",
+									"    }",
+									"    pm.expect(count).to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Check that echoed field is accountLevel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.field).to.eql(\"accountLevel\");",
+									"});",
+									"",
+									"pm.test(\"Check that value is a number >= 100\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value >= 100).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "dklkgjslh",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/field/accountLevel",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"field",
+								"accountLevel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Swaps Allowed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0099bc37-6c32-481c-a139-93e332666a93",
+								"exec": [
+									"pm.test(\"Check that status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Check that response contains only field and value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    let count = 0;",
+									"    for (let key in jsonData) {",
+									"        pm.expect(key === \"field\" || key === \"value\").to.eql(true);",
+									"        count++;",
+									"    }",
+									"    pm.expect(count).to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Check that echoed field is swapsAllowed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.field).to.eql(\"swapsAllowed\");",
+									"});",
+									"",
+									"pm.test(\"Check that value is a number >= 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value >= 0).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "dklkgjslh"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/field/swapsAllowed",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"field",
+								"swapsAllowed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Cars",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0099bc37-6c32-481c-a139-93e332666a93",
+								"exec": [
+									"pm.test(\"Check that status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Check that response contains only field and value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    let count = 0;",
+									"    for (let key in jsonData) {",
+									"        pm.expect(key === \"field\" || key === \"value\").to.eql(true);",
+									"        count++;",
+									"    }",
+									"    pm.expect(count).to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Check that echoed field is cars\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.field).to.eql(\"cars\");",
+									"});",
+									"",
+									"pm.test(\"Check that value is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value instanceof Array).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "dklkgjslh",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/field/cars",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"field",
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Allowed Permits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/field/allowedPermits",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"field",
+								"allowedPermits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Swaps Allowed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0099bc37-6c32-481c-a139-93e332666a93",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains only field and value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    let count = 0;",
+									"    for (let key in jsonData) {",
+									"        pm.expect(key === \"field\" || key === \"value\").to.eql(true);",
+									"        count++;",
+									"    }",
+									"    pm.expect(count).to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Echoed field is swapsAllowed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.field).to.eql(\"swapsAllowed\");",
+									"});",
+									"",
+									"pm.test(\"Value is a number >= 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value >= 0).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "dklkgjslh"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": 27\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/field/swapsAllowed",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"field",
+								"swapsAllowed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Account Level",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0099bc37-6c32-481c-a139-93e332666a93",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains only field and value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    let count = 0;",
+									"    for (let key in jsonData) {",
+									"        pm.expect(key === \"field\" || key === \"value\").to.eql(true);",
+									"        count++;",
+									"    }",
+									"    pm.expect(count).to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Echoed field is swapsAllowed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.field).to.eql(\"swapsAllowed\");",
+									"});",
+									"",
+									"pm.test(\"Value is a number >= 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value >= 0).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "dklkgjslh"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": 300\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/field/accountLevel",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"field",
+								"accountLevel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Account Level Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0099bc37-6c32-481c-a139-93e332666a93",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains only field and value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    let count = 0;",
+									"    for (let key in jsonData) {",
+									"        pm.expect(key === \"field\" || key === \"value\").to.eql(true);",
+									"        count++;",
+									"    }",
+									"    pm.expect(count).to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Echoed field is swapsAllowed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.field).to.eql(\"swapsAllowed\");",
+									"});",
+									"",
+									"pm.test(\"Value is a number >= 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value >= 0).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "dklkgjslh"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": null\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/field/middleInitial",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"field",
+								"middleInitial"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/users/deleteUser",
+			"item": [
+				{
+					"name": "Delete a Test User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"testuser1624\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/deleteUser",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"deleteUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/users/searchUsers",
+			"item": [
+				{
+					"name": "Search for Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/searchUsers?maxResults=1&usernameFilter=&firstNameFilter=&lastNameFilter=&emailAddressFilter=&accountLevelFilter=",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"searchUsers"
+							],
+							"query": [
+								{
+									"key": "maxResults",
+									"value": "1"
+								},
+								{
+									"key": "usernameFilter",
+									"value": ""
+								},
+								{
+									"key": "firstNameFilter",
+									"value": ""
+								},
+								{
+									"key": "lastNameFilter",
+									"value": ""
+								},
+								{
+									"key": "emailAddressFilter",
+									"value": ""
+								},
+								{
+									"key": "accountLevelFilter",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/permits/purchasePermit",
+			"item": [
+				{
+					"name": "Purchase a Permit for an Authenticated User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"permitType\": {\n\t\t\"permitType\": \"D\"\n\t},\n\t\"car\": {\n\t\t\"color\": \"Red\",\n\t\t\"year\": \"2007\",\n\t\t\"make\": \"Toyota\",\n\t\t\"model\": \"Camry\",\n\t\t\"licensePlate\": {\n\t\t\t\"state\": \"FL\",\n\t\t\t\"tag\": \"ABC123\"\n\t\t}\n\t},\n\t\"purchasePrice\": 1000,\n\t\"startDate\": 1547429516077,\n\t\"expirationDate\": 2547429516077,\n\t\"stripeToken\": \"tokenIdGoesHere\",\n\t\"receiptEmailAddress\": \"philipjamesrodriguez@gmail.com\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/permits/purchasePermit",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"purchasePermit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/permits/specific/[username]",
+			"item": [
+				{
+					"name": "Fetch Permits of a User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/permits/specific/{{username}}",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"specific",
+								"{{username}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/users/specific/[username]/addCar",
+			"item": [
+				{
+					"name": "Add a Car (Toyota)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"make\": \"Toyota\",\n\t\"model\": \"Camry\",\n\t\"year\": \"2007\",\n\t\"color\": \"Gray\",\n\t\"tag\": \"832RXY\",\n\t\"state\": \"FL\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/addCar",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"addCar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a Car (Toyota) Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"make\": \"Toyota\",\n\t\"model\": \"Camry\",\n\t\"year\": \"2012\",\n\t\"color\": \"Gray\",\n\t\"tag\": \"832RXY\",\n\t\"state\": \"FL\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/addCar",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"addCar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a Car (Honda)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"make\": \"Honda\",\n\t\"model\": \"Accord\",\n\t\"year\": \"2015\",\n\t\"color\": \"Blue\",\n\t\"tag\": \"AR93Q2\",\n\t\"state\": \"GA\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/addCar",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"addCar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a Car (Chevy)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"make\": \"Chevrolet\",\n\t\"model\": \"Camero\",\n\t\"year\": \"1998\",\n\t\"color\": \"Yellow\",\n\t\"tag\": \"AD9871\",\n\t\"state\": \"FL\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/addCar",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"addCar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/users/specific/[username]/getCarByID/[id]",
+			"item": [
+				{
+					"name": "Get Car by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/getCarByID/5ca8127a84a3244db80a00be",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"getCarByID",
+								"5ca8127a84a3244db80a00be"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e7669e16-ea57-45c9-8ade-c3fe617dcc15",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "284795bb-7f88-44ac-8045-0dafcacf62e8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "/api/users/specific/[username]/updateCar",
+			"item": [
+				{
+					"name": "Update Car",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"5c8723c64de14e31141c98ee\",\n\t\"make\": \"Chevrolet\",\n    \"model\": \"Camero\",\n    \"year\": 1998,\n    \"color\": \"Yellow\",\n    \"tag\": \"ADF312\",\n    \"state\": \"FL\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/updateCar",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"updateCar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e7669e16-ea57-45c9-8ade-c3fe617dcc15",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "284795bb-7f88-44ac-8045-0dafcacf62e8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "/api/users/specific/[username]/removeCar",
+			"item": [
+				{
+					"name": "Remove a Car",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"5c449f654ecdd909cf272df5\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/removeCar",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"removeCar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/users/specific/[username]/updateManyFields",
+			"item": [
+				{
+					"name": "Update Many Fields",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"newfn\",\n\t\"lastName\": \"newln\",\n\t\"allowedPermits\": [\n\t\t{\n\t\t\t\"permitType\": \"D\"\n\t\t},\n\t\t{\n\t\t\t\"permitType\": \"A\",\n\t\t\t\"spaceNumber\": 144\n\t\t}\n\t],\n\t\"middleInitial\": \"K\",\n\t\"phoneNumber\": \"0010000000\",\n\t\"addressLine1\": \"line1\",\n\t\"addressLine2\": \"line2\",\n\t\"city\": \"mycity\",\n\t\"state\": \"GA\",\n\t\"zipCode\": \"1235\",\n\t\"accountLevel\": 300,\n\t\"swapsAllowed\": 15\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/updateManyFields",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"updateManyFields"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Many Fields Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"allowedPermits\": [\n        {\n            \"_id\": \"5ca8123c84a3244db80a00ae\",\n            \"permitType\": \"B\"\n        },\n        {\n            \"_id\": \"5ca8123c84a3244db80a00ad\",\n            \"permitType\": \"C\"\n        },\n        {\n            \"_id\": \"5ca8123c84a3244db80a00ac\",\n            \"permitType\": \"D\"\n        },\n        {\n            \"_id\": \"5ca8123c84a3244db80a00ab\",\n            \"permitType\": \"R\"\n        },\n        {\n            \"_id\": \"5ca8123c84a3244db80a00aa\",\n            \"permitType\": \"RL\"\n        },\n        {\n            \"_id\": \"5ca8123c84a3244db80a00a9\",\n            \"permitType\": \"KP\"\n        },\n        {\n            \"_id\": \"5ca8123c84a3244db80a00a8\",\n            \"permitType\": \"Motorcycle\"\n        },\n        {\n            \"_id\": \"5ca8123c84a3244db80a00a7\",\n            \"permitType\": \"Vendor\"\n        },\n        {\n            \"_id\": \"5ca8123c84a3244db80a00a6\",\n            \"permitType\": \"Visitor\"\n        },\n        {\n            \"_id\": \"5ca8123c84a3244db80a00a5\",\n            \"permitType\": \"A\",\n            \"spaceNumber\": 146\n        }\n    ],\n    \"firstName\": \"PHILIP\",\n    \"lastName\": \"RODRIGUEZ\",\n    \"middleInitial\": \"J\",\n    \"phoneNumber\": \"4075382460\",\n    \"addressLine1\": \"141 Wisteria Dr\",\n    \"city\": \"Longwood\",\n    \"state\": \"FL\",\n    \"zipCode\": \"32779\",\n    \"accountLevel\": 300,\n    \"swapsAllowed\": 3\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/users/specific/{{username}}/updateManyFields",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{username}}",
+								"updateManyFields"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/permits/tagspecific/[tag]",
+			"item": [
+				{
+					"name": "Find Permits by Tag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/permits/tagspecific/ADF726",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"tagspecific",
+								"ADF726"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/permits/updatePermitCar",
+			"item": [
+				{
+					"name": "Update Permit Car",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"5c689dedc4efbe5d73ca06ce\",\n\t\"car\": {\n\t\t\"color\": \"Green\",\n\t\t\"make\": \"Chevy\",\n\t\t\"model\": \"Camero\",\n\t\t\"year\": 1998,\n\t\t\"licensePlate\": {\n\t\t\t\"tag\": \"2FAST4U\",\n\t\t\t\"state\": \"GA\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/permits/updatePermitCar",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"updatePermitCar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/permits/idspecific/[id]",
+			"item": [
+				{
+					"name": "Fetch Permit by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/permits/idspecific/5c9d7ba62bedb93cb6d8875f",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"idspecific",
+								"5c9d7ba62bedb93cb6d8875f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/violations/addViolation",
+			"item": [
+				{
+					"name": "Add Violation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"tag\": \"ABC123\",\n\t\"state\": \"FL\",\n\t\"latitude\": 1,\n\t\"longitude\": 2,\n\t\"altitude\": 3,\n\t\"requiredPermitType\": \"A\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/violations/addViolation",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"violations",
+								"addViolation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/violations/fetchViolations",
+			"item": [
+				{
+					"name": "Fetch Violations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/violations/fetchViolations?startDate=0&endDate=15509787608910",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"violations",
+								"fetchViolations"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "0"
+								},
+								{
+									"key": "endDate",
+									"value": "15509787608910"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/utils/getVehicleMakesList",
+			"item": [
+				{
+					"name": "Get Vehicle Makes List",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/utils/getVehicleMakesList",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"getVehicleMakesList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/utils/getVehicleColorsList",
+			"item": [
+				{
+					"name": "Get Vehicle Colors List",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/utils/getVehicleColorsList",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"getVehicleColorsList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/utils/getStatesList",
+			"item": [
+				{
+					"name": "Get Vehicle States List",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/utils/getStatesList",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"getStatesList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/utils/getPermitTypes",
+			"item": [
+				{
+					"name": "Get Permit Types",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/utils/getPermitTypes",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"getPermitTypes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/apu/utils/calculateMaximumYearlyPrice/[dailyPriceInCents]",
+			"item": [
+				{
+					"name": "Calculate Max Yearly Price",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/utils/calculateMaximumYearlyPrice/100",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"calculateMaximumYearlyPrice",
+								"100"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/utils/calculatePermitPrice/[permitType]/[expirationDate]",
+			"item": [
+				{
+					"name": "Calculate Permit Price",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/utils/calculatePermitPrice/D/1549688400000/1551416399999",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"calculatePermitPrice",
+								"D",
+								"1549688400000",
+								"1551416399999"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/fetchGlobal/[name]",
+			"item": [
+				{
+					"name": "Fetch Global",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/fetchGlobal/helloWorldGlobal",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"fetchGlobal",
+								"helloWorldGlobal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Permit Types Global",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/fetchGlobal/permitTypes",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"fetchGlobal",
+								"permitTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Swap Period Global",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/fetchGlobal/swapPeriod",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"fetchGlobal",
+								"swapPeriod"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/putGlobal/[name]",
+			"item": [
+				{
+					"name": "Put Global",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": \"This is just a test global. Hello, world!\"\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/putGlobal/helloWorldGlobal",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"putGlobal",
+								"helloWorldGlobal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Permit Types Global",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": [\n        {\n            \"permitType\": \"A\",\n            \"color\": \"#bdbdbd\",\n            \"priceOneYear\": 102958,\n            \"priceOneDay\": 3089,\n            \"children\": []\n        },\n        {\n            \"permitType\": \"B\",\n            \"color\": \"#d60000\",\n            \"priceOneYear\": 30360,\n            \"priceOneDay\": 911,\n            \"children\": [\n                \"A\"\n            ]\n        },\n        {\n            \"permitType\": \"C\",\n            \"color\": \"#00bbe1\",\n            \"priceOneYear\": 18101,\n            \"priceOneDay\": 543,\n            \"children\": [\n                \"A\",\n                \"B\",\n                \"Vendor\"\n            ]\n        },\n        {\n            \"permitType\": \"D\",\n            \"color\": \"#00c81b\",\n            \"priceOneYear\": 9003,\n            \"priceOneDay\": 270,\n            \"children\": [\n                \"A\",\n                \"B\",\n                \"C\",\n                \"Vendor\",\n                \"Visitor\"\n            ]\n        },\n        {\n            \"permitType\": \"R\",\n            \"color\": \"#ebbc00\",\n            \"priceOneYear\": 13504,\n            \"priceOneDay\": 405,\n            \"children\": [\n                \"A\"\n            ]\n        },\n        {\n            \"permitType\": \"RL\",\n            \"color\": \"#ebbc00\",\n            \"priceOneYear\": 13504,\n            \"priceOneDay\": 405,\n            \"children\": [\n                \"A\"\n            ]\n        },\n        {\n            \"permitType\": \"KP\",\n            \"color\": \"#a800e9\",\n            \"priceOneYear\": 13504,\n            \"priceOneDay\": 405,\n            \"children\": [\n                \"A\"\n            ]\n        },\n        {\n            \"permitType\": \"Motorcycle\",\n            \"color\": \"#3f51b5\",\n            \"priceOneYear\": 4693,\n            \"priceOneDay\": 405,\n            \"children\": []\n        },\n        {\n            \"permitType\": \"Vendor\",\n            \"color\": \"#009688\",\n            \"priceOneYear\": 47887,\n            \"priceOneDay\": 1437,\n            \"children\": []\n        },\n        {\n            \"permitType\": \"Visitor\",\n            \"color\": \"#000000\",\n            \"priceOneYear\": 18604,\n            \"priceOneDay\": 500,\n            \"children\": [\n                \"A\",\n                \"B\",\n                \"C\",\n                \"D\",\n                \"Vendor\"\n            ]\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/putGlobal/permitTypes",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"putGlobal",
+								"permitTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Swap Period Global",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": 300000\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/putGlobal/swapPeriod",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"putGlobal",
+								"swapPeriod"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Swaps Allowed Default",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": 3\n}"
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/putGlobal/swapsAllowedDefault",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"putGlobal",
+								"swapsAllowedDefault"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/permits/processALPRResult",
+			"item": [
+				{
+					"name": "Process ALPR Result",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/permits/processALPRResult?p1=832RXY&p2=ABCABC&p3=PGHHYU&permitType=R",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"processALPRResult"
+							],
+							"query": [
+								{
+									"key": "p1",
+									"value": "832RXY"
+								},
+								{
+									"key": "p2",
+									"value": "ABCABC"
+								},
+								{
+									"key": "p3",
+									"value": "PGHHYU"
+								},
+								{
+									"key": "permitType",
+									"value": "R"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Process ALPR Result Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverAddress}}/api/permits/processALPRResult?p1=832RXY&p2=no&p3=no&permitType=A",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"processALPRResult"
+							],
+							"query": [
+								{
+									"key": "p1",
+									"value": "832RXY"
+								},
+								{
+									"key": "p2",
+									"value": "no"
+								},
+								{
+									"key": "p3",
+									"value": "no"
+								},
+								{
+									"key": "permitType",
+									"value": "A"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test Battery",
+			"item": [
+				{
+					"name": "Check Vehicle Makes List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c9f6d37-579c-4aad-9d4d-43a7e3ef126d",
+								"exec": [
+									"function isString(obj) {",
+									"  return (Object.prototype.toString.call(obj) === '[object String]');",
+									"}",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message data is an array of strings\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(Array.isArray(jsonData.data)).to.eql(true);",
+									"    ",
+									"    let pass = true;",
+									"    jsonData.data.forEach((element) => {",
+									"        if (!isString(element)) {",
+									"            pass = false;",
+									"        }",
+									"    });",
+									"    ",
+									"    pm.expect(pass).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/utils/getVehicleMakesList",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"getVehicleMakesList"
+							]
+						},
+						"description": "Ensure that the /api/utils/getVehicleMakesList returns an array of strings."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Vehicle Colors List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c9f6d37-579c-4aad-9d4d-43a7e3ef126d",
+								"exec": [
+									"function isString(obj) {",
+									"  return (Object.prototype.toString.call(obj) === '[object String]');",
+									"}",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message data is an array of strings\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(Array.isArray(jsonData.data)).to.eql(true);",
+									"    ",
+									"    let pass = true;",
+									"    jsonData.data.forEach((element) => {",
+									"        if (!isString(element)) {",
+									"            pass = false;",
+									"        }",
+									"    });",
+									"    ",
+									"    pm.expect(pass).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/utils/getVehicleColorsList",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"getVehicleColorsList"
+							]
+						},
+						"description": "Ensure that the endpoint /api/utils/getVehicleColorsList returns an array of strings."
+					},
+					"response": []
+				},
+				{
+					"name": "Check States List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c9f6d37-579c-4aad-9d4d-43a7e3ef126d",
+								"exec": [
+									"function isString(obj) {",
+									"  return (Object.prototype.toString.call(obj) === '[object String]');",
+									"}",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message data is an array of strings of length 2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(Array.isArray(jsonData.data)).to.eql(true);",
+									"    ",
+									"    let pass = true;",
+									"    jsonData.data.forEach((element) => {",
+									"        if (!isString(element)) {",
+									"            pass = false;",
+									"        } else {",
+									"            if (element.length !== 2) {",
+									"                pass = false;",
+									"            }",
+									"        }",
+									"    });",
+									"    ",
+									"    pm.expect(pass).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/utils/getStatesList",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"getStatesList"
+							]
+						},
+						"description": "Ensure that the endpoint /api/utils/getStatesList returns an array of strings."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Permit Types",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c9f6d37-579c-4aad-9d4d-43a7e3ef126d",
+								"exec": [
+									"function isString(obj) {",
+									"  return (Object.prototype.toString.call(obj) === '[object String]');",
+									"}",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message data is an array of objects of valid structure\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.data).to.be.a(\"array\");",
+									"    ",
+									"    jsonData.data.forEach((element) => {",
+									"        pm.expect(element).to.have.property(\"permitType\");",
+									"        pm.expect(element.permitType).to.be.a(\"String\");",
+									"        pm.expect(element).to.have.property(\"color\");",
+									"        pm.expect(element.color).to.be.a(\"String\");",
+									"        pm.expect(element).to.have.property(\"priceOneYear\");",
+									"        pm.expect(element.priceOneYear).to.be.a(\"number\");",
+									"        pm.expect(element).to.have.property(\"priceOneDay\");",
+									"        pm.expect(element.priceOneDay).to.be.a(\"number\");",
+									"        pm.expect(element).to.have.property(\"children\");",
+									"        pm.expect(element.children).to.be.a(\"array\");",
+									"    });",
+									"    ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/utils/getPermitTypes",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"getPermitTypes"
+							]
+						},
+						"description": "Ensure that the endpoint /api/utils/getPermitTypes returns an array of objects with valid structure, meaning the objects should each contain permitType, color, priceOneYear, priceOneDay, and children properties."
+					},
+					"response": []
+				},
+				{
+					"name": "Check calculateMaximumYearlyPrice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c9f6d37-579c-4aad-9d4d-43a7e3ef126d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message result is a number\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.result).to.be.a(\"number\");",
+									"});",
+									"",
+									"pm.test(\"Message result is positive\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.result > 0).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/utils/calculateMaximumYearlyPrice/800",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"calculateMaximumYearlyPrice",
+								"800"
+							]
+						},
+						"description": "Ensure that the endpoint /api/utils/calculateMaximumYearlyPrice returns a positive number."
+					},
+					"response": []
+				},
+				{
+					"name": "Check calculatePermitPrice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c9f6d37-579c-4aad-9d4d-43a7e3ef126d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message data is a number\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.data).to.be.a(\"number\");",
+									"});",
+									"",
+									"pm.test(\"Message data is positive\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.data > 0).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/utils/calculatePermitPrice/D/0/2500000000",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"utils",
+								"calculatePermitPrice",
+								"D",
+								"0",
+								"2500000000"
+							]
+						},
+						"description": "Ensure that the endpoint /api/utils/calculatePermitPrice returns a positive number."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Can Put Global",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c9f6d37-579c-4aad-9d4d-43a7e3ef126d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message status is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Message message is \\\"Success!\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Success!\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": \"This is some test global!!!\"\n}"
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/putGlobal/testGlobal",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"putGlobal",
+								"testGlobal"
+							]
+						},
+						"description": "Ensure that an administrator can put a global into the database."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Can Fetch Global",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c9f6d37-579c-4aad-9d4d-43a7e3ef126d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message value is \\\"This is some test global!!!\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value).to.eql(\"This is some test global!!!\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/fetchGlobal/testGlobal",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"fetchGlobal",
+								"testGlobal"
+							]
+						},
+						"description": "Ensure that an administrator can fetch a global in the database."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Standard User Can Add Car",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c5e2c7ed-ca85-492a-9d5e-4a94d06c7789",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message status is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Message message is \\\"Car added successfully!\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Car added successfully!\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenStandard}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"make\": \"Honda\",\n\t\"model\": \"Accord\",\n\t\"year\": 2005,\n\t\"color\": \"Gray\",\n\t\"state\": \"GA\",\n\t\"tag\": \"987654\"\n}"
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/users/specific/{{test_usernameStandard}}/addCar",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{test_usernameStandard}}",
+								"addCar"
+							]
+						},
+						"description": "Ensure that a standard user is capable of adding a car preset to their account."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Standard User Can Purchase Permit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5f3f933c-e50b-42a8-b2e9-a1701cbfd2b3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message status is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Message message is \\\"Successfully added permit!\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Successfully added permit!\");",
+									"});",
+									"",
+									"pm.test(\"Message receiptURL exists and is a String\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"receiptURL\");",
+									"    pm.expect(jsonData.receiptURL).to.be.a(\"String\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenStandard}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"permitType\": {\n\t\t\"permitType\": \"D\"\n\t},\n\t\"car\": {\n\t\t\"color\": \"Red\",\n\t\t\"year\": \"2007\",\n\t\t\"make\": \"Toyota\",\n\t\t\"model\": \"Camry\",\n\t\t\"licensePlate\": {\n\t\t\t\"state\": \"FL\",\n\t\t\t\"tag\": \"ABC123\"\n\t\t}\n\t},\n\t\"purchasePrice\": 2386,\n\t\"startDate\": 0,\n\t\"expirationDate\": 2500000000,\n\t\"stripeToken\": \"tokenIdGoesHere\",\n\t\"receiptEmailAddress\": \"standard@website.com\"\n}"
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/permits/purchasePermit",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"purchasePermit"
+							]
+						},
+						"description": "Ensure that /api/permits/purchasePermit allows a permit to be added and responds with a success message."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Can See Permit By Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b8eda72-fecc-466d-a99e-efeb76ff073d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message results is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.results).to.be.a(\"array\");",
+									"});",
+									"",
+									"pm.test(\"Message results array structure is ok\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.results.forEach((element) => {",
+									"        pm.expect(element).to.have.property(\"swapTimestamps\");",
+									"        pm.expect(element.swapTimestamps).to.be.a(\"array\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"owner\");",
+									"        pm.expect(element.owner).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"car\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"permitType\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"purchasePrice\");",
+									"        pm.expect(element.purchasePrice).to.be.a(\"number\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"purchaseDate\");",
+									"        pm.expect(element.purchaseDate).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"expirationDate\");",
+									"        pm.expect(element.expirationDate).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element.permitType).to.have.property(\"permitType\");",
+									"        pm.expect(element.permitType.permitType).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element.car).to.have.property(\"make\");",
+									"        pm.expect(element.car.make).to.be.a(\"String\");",
+									"        pm.expect(element.car).to.have.property(\"model\");",
+									"        pm.expect(element.car.model).to.be.a(\"String\");",
+									"        pm.expect(element.car).to.have.property(\"year\");",
+									"        pm.expect(element.car.year).to.be.a(\"number\");",
+									"        pm.expect(element.car).to.have.property(\"color\");",
+									"        pm.expect(element.car.color).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element.car).to.have.property(\"licensePlate\");",
+									"        pm.expect(element.car.licensePlate).to.have.property(\"state\");",
+									"        pm.expect(element.car.licensePlate.state).to.be.a(\"String\");",
+									"        pm.expect(element.car.licensePlate).to.have.property(\"tag\");",
+									"        pm.expect(element.car.licensePlate.tag).to.be.a(\"String\");",
+									"    });",
+									"});",
+									"",
+									"pm.globals.set(\"test_temp_permit_id\", pm.response.json().results[0]._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/permits/specific/{{test_usernameStandard}}",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"specific",
+								"{{test_usernameStandard}}"
+							]
+						},
+						"description": "Ensure that an administrator can look up permits by owner. Checks that an array is returned and that each item in it fits the expected structure of a permit, including down to and inside of the enclosed licensePlate and car objects."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Standard User Can Update Permit Car",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "74a1a44a-175e-4a9e-9b66-474c7eb50e15",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message status is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Message message is \\\"Successfully updated permit car!\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Successfully updated permit car!\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenStandard}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"{{test_temp_permit_id}}\",\n\t\"car\": {\n\t\t\"color\": \"Green\",\n\t\t\"make\": \"Chevrolet\",\n\t\t\"model\": \"Camero\",\n\t\t\"year\": 1998,\n\t\t\"licensePlate\": {\n\t\t\t\"tag\": \"2FAST4U\",\n\t\t\t\"state\": \"GA\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/permits/updatePermitCar",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"updatePermitCar"
+							]
+						},
+						"description": "Ensure that the standard user can change the car on a permit, and that the server responds correctly with a success status message."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Enforcer Can See Permit By Tag",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b8eda72-fecc-466d-a99e-efeb76ff073d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message results is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.results).to.be.a(\"array\");",
+									"});",
+									"",
+									"pm.test(\"Message results array structure is ok\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.results.forEach((element) => {",
+									"        pm.expect(element).to.have.property(\"swapTimestamps\");",
+									"        pm.expect(element.swapTimestamps).to.be.a(\"array\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"owner\");",
+									"        pm.expect(element.owner).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"car\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"permitType\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"purchasePrice\");",
+									"        pm.expect(element.purchasePrice).to.be.a(\"number\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"purchaseDate\");",
+									"        pm.expect(element.purchaseDate).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"expirationDate\");",
+									"        pm.expect(element.expirationDate).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element.permitType).to.have.property(\"permitType\");",
+									"        pm.expect(element.permitType.permitType).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element.car).to.have.property(\"make\");",
+									"        pm.expect(element.car.make).to.be.a(\"String\");",
+									"        pm.expect(element.car).to.have.property(\"model\");",
+									"        pm.expect(element.car.model).to.be.a(\"String\");",
+									"        pm.expect(element.car).to.have.property(\"year\");",
+									"        pm.expect(element.car.year).to.be.a(\"number\");",
+									"        pm.expect(element.car).to.have.property(\"color\");",
+									"        pm.expect(element.car.color).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element.car).to.have.property(\"licensePlate\");",
+									"        pm.expect(element.car.licensePlate).to.have.property(\"state\");",
+									"        pm.expect(element.car.licensePlate.state).to.be.a(\"String\");",
+									"        pm.expect(element.car.licensePlate).to.have.property(\"tag\");",
+									"        pm.expect(element.car.licensePlate.tag).to.be.a(\"String\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenEnforcer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/permits/tagspecific/ABC123",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"tagspecific",
+								"ABC123"
+							]
+						},
+						"description": "Ensure that an enforcer can look up permits by tag. Checks that an array is returned and that each item in it fits the expected structure of a permit, including down to and inside of the enclosed licensePlate and car objects."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Standard User Can See Permit By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b8eda72-fecc-466d-a99e-efeb76ff073d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message result structure is ok\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    let element = jsonData.result;",
+									"    pm.expect(element).to.have.property(\"swapTimestamps\");",
+									"        pm.expect(element.swapTimestamps).to.be.a(\"array\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"owner\");",
+									"        pm.expect(element.owner).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"car\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"permitType\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"purchasePrice\");",
+									"        pm.expect(element.purchasePrice).to.be.a(\"number\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"purchaseDate\");",
+									"        pm.expect(element.purchaseDate).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element).to.have.property(\"expirationDate\");",
+									"        pm.expect(element.expirationDate).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element.permitType).to.have.property(\"permitType\");",
+									"        pm.expect(element.permitType.permitType).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element.car).to.have.property(\"make\");",
+									"        pm.expect(element.car.make).to.be.a(\"String\");",
+									"        pm.expect(element.car).to.have.property(\"model\");",
+									"        pm.expect(element.car.model).to.be.a(\"String\");",
+									"        pm.expect(element.car).to.have.property(\"year\");",
+									"        pm.expect(element.car.year).to.be.a(\"number\");",
+									"        pm.expect(element.car).to.have.property(\"color\");",
+									"        pm.expect(element.car.color).to.be.a(\"String\");",
+									"        ",
+									"        pm.expect(element.car).to.have.property(\"licensePlate\");",
+									"        pm.expect(element.car.licensePlate).to.have.property(\"state\");",
+									"        pm.expect(element.car.licensePlate.state).to.be.a(\"String\");",
+									"        pm.expect(element.car.licensePlate).to.have.property(\"tag\");",
+									"        pm.expect(element.car.licensePlate.tag).to.be.a(\"String\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenStandard}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/permits/idspecific/{{test_temp_permit_id}}",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"idspecific",
+								"{{test_temp_permit_id}}"
+							]
+						},
+						"description": "Ensure that a standard user can look up a permit owned by themselves using the permit ID. Checks that an appropriate object is returned and that it fits the expected structure of a permit, including down to and inside of the enclosed licensePlate and car objects."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Enforcer Can Use processALPRResult Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8841e052-c9d4-44d9-9247-a0326be79c21",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message contains selectedTag and it is a String\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"selectedTag\");",
+									"    pm.expect(jsonData.selectedTag).to.be.a(\"String\");",
+									"});",
+									"",
+									"pm.test(\"Message contains spaceNumber and it is null\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"spaceNumber\");",
+									"    pm.expect(jsonData.spaceNumber).to.eql(null);",
+									"});",
+									"",
+									"pm.test(\"Message contains priority and it is a number\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"priority\");",
+									"    pm.expect(jsonData.priority).to.be.a(\"number\");",
+									"});",
+									"",
+									"pm.test(\"Message contains inViolation and it is a boolean\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"inViolation\");",
+									"    pm.expect(jsonData.inViolation).to.be.a(\"boolean\");",
+									"});",
+									"",
+									"pm.test(\"Message contains matchedPermits and it is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"matchedPermits\");",
+									"    pm.expect(jsonData.matchedPermits).to.be.a(\"array\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenEnforcer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/permits/processALPRResult?p1=2FAST4U&p2=&p3=&permitType=D",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"permits",
+								"processALPRResult"
+							],
+							"query": [
+								{
+									"key": "p1",
+									"value": "2FAST4U"
+								},
+								{
+									"key": "p2",
+									"value": ""
+								},
+								{
+									"key": "p3",
+									"value": ""
+								},
+								{
+									"key": "permitType",
+									"value": "D"
+								}
+							]
+						},
+						"description": "Ensure that an enforcer can use the processALPRResult endpoint and also ensure the structure of the response makes sense."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Standard User Can See Its Own Details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "910ce060-4d41-4684-a636-24721091a1c3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response structure and content is OK\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.username).to.eql(\"vntStandard\");",
+									"    pm.expect(jsonData.firstName).to.eql(\"StandardFN\");",
+									"    pm.expect(jsonData.lastName).to.eql(\"StandardLN\");",
+									"    pm.expect(jsonData.middleInitial).to.eql(\"S\");",
+									"    pm.expect(jsonData.emailAddress).to.eql(\"standard@website.com\");",
+									"    pm.expect(jsonData.phoneNumber).to.eql(\"9012345678\");",
+									"    pm.expect(jsonData.addressLine1).to.eql(\"123 Standard Drive\");",
+									"    pm.expect(jsonData.addressLine2).to.eql(\"Address Line Two Standard\");",
+									"    pm.expect(jsonData.city).to.eql(\"Standard City\");",
+									"    pm.expect(jsonData.state).to.eql(\"NY\");",
+									"    pm.expect(jsonData.zipCode).to.eql(\"45123\");",
+									"    pm.expect(jsonData.accountLevel).to.eql(100);",
+									"    pm.expect(jsonData.swapsAllowed).to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenStandard}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/users/specific/{{test_usernameStandard}}",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{test_usernameStandard}}"
+							]
+						},
+						"description": "Ensure that a standard user is able to fetch their own account information. Also ensure that the returned account information is correct in terms of structure and content."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Standard User Can Fetch Its Own Singular Field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "13ae655b-09df-4e91-9bee-f43f5706d709",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response field is \\\"accountLevel\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.field).to.eql(\"accountLevel\");",
+									"});",
+									"",
+									"pm.test(\"Response value is 100\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value).to.eql(100);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenStandard}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/users/specific/{{test_usernameStandard}}/field/accountLevel",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{test_usernameStandard}}",
+								"field",
+								"accountLevel"
+							]
+						},
+						"description": "Checks that a standard user can fetch its own account level field using the /specific/:username/field/:field endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Can Search Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8cac17d-994e-41b2-887a-7ff2b52efa9e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains results and it is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"results\");",
+									"    pm.expect(jsonData.results).to.be.a(\"array\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/users/searchUsers?maxResults=5&accountLevelFilter=&usernameFilter=&firstNameFilter=&lastNameFilter=&emailAddressFilter=",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"searchUsers"
+							],
+							"query": [
+								{
+									"key": "maxResults",
+									"value": "5"
+								},
+								{
+									"key": "accountLevelFilter",
+									"value": ""
+								},
+								{
+									"key": "usernameFilter",
+									"value": ""
+								},
+								{
+									"key": "firstNameFilter",
+									"value": ""
+								},
+								{
+									"key": "lastNameFilter",
+									"value": ""
+								},
+								{
+									"key": "emailAddressFilter",
+									"value": ""
+								}
+							]
+						},
+						"description": "Ensure that an administrator can use the /api/users/searchUsers endpoint and ensure the response has a results array."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Can Initialize New User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7966c180-af9b-4a3f-92c1-d98a70ff15a9",
+								"exec": [
+									"pm.globals.set(\"test_temp_new_user_name\", \"nu\" + new Date().getTime());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "917447a5-cc83-4fd6-9674-1726c02da331",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message status is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Message message is \\\"User successfully initialized in the database and user pool!\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"User successfully initialized in the database and user pool!\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{test_temp_new_user_name}}\",\n\t\"password\": \"password\",\n\t\"firstName\": \"FN\",\n\t\"lastName\": \"LN\",\n\t\"emailAddress\": \"newuser@website.com\",\n\t\"phoneNumber\": \"1234567890\",\n\t\"addressLine1\": \"123 New Street\",\n\t\"city\": \"Longwood\",\n\t\"state\": \"FL\",\n\t\"zipCode\": 32779,\n\t\"accountLevel\": 100,\n\t\"allowedPermits\": [ { \"permitType\": \"D\" } ]\n}"
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/users/initializeNewUser",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"initializeNewUser"
+							]
+						},
+						"description": "Ensure that an administrator can create a new user using the /api/users/initializeNewUser endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Can Set Singular User Field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7b7a8a09-3ab8-422d-908e-183c2e3548ed",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message status is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Message message is \\\"Successfully set field!\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Successfully set field!\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": 200\n}"
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/users/specific/{{test_temp_new_user_name}}/field/accountLevel",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{test_temp_new_user_name}}",
+								"field",
+								"accountLevel"
+							]
+						},
+						"description": "Ensure that an administrator can update a singular field of another user using the /api/users/specific/:username/field/:field endpoint. In this case, accountLevel is tested."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Can Update Many Fields Of User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7822e08f-d0c9-4c3d-9eca-64092d2057c6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message status is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Message message is \\\"User fields update successfully!\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"User fields update successfully!\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"FN2\",\n\t\"lastName\": \"LN2\"\n}"
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/users/specific/{{test_temp_new_user_name}}/updateManyFields",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"specific",
+								"{{test_temp_new_user_name}}",
+								"updateManyFields"
+							]
+						},
+						"description": "Ensure that an administrator can use the /api/users/specific/:username/updateManyFields endpoint to update multiple fields of a user at one time."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Can Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6984c2b7-9608-4a2f-9a51-50e50cb1bd70",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message status is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Message message is \\\"Successfully deleted user! [object Object]\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Successfully deleted user! [object Object]\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{test_temp_new_user_name}}\"\n}"
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/users/deleteUser",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"deleteUser"
+							]
+						},
+						"description": "Ensure that an administrator can delete a user using the /api/users/deleteUser endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Enforcer Can Add Violation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8199bb69-3beb-4532-b696-e81a2cfef732",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message status is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Message message is \\\"Violation added successfully!\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Violation added successfully!\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenEnforcer}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"requiredPermitType\": \"D\",\n\t\"state\": \"FL\",\n\t\"tag\": \"ABCCCC\",\n\t\"latitude\": 1,\n\t\"longitude\": 1,\n\t\"altitude\": 1\n}"
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/violations/addViolation",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"violations",
+								"addViolation"
+							]
+						},
+						"description": "Ensure that enforcers can add violations using the /api/violations/addViolation endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Can Use fetchViolations Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "27a7ca59-0931-4329-a8a6-c1a992166e7c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains results\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"results\");",
+									"});",
+									"",
+									"pm.test(\"Results is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.results).to.be.a(\"array\");",
+									"});",
+									"",
+									"pm.test(\"Results is an array of correctly formatted violation objects\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.results.forEach((element) => {",
+									"        pm.expect(element).to.have.property(\"licensePlate\");",
+									"        pm.expect(element).to.have.property(\"issuer\");",
+									"        pm.expect(element).to.have.property(\"date\");",
+									"        pm.expect(element).to.have.property(\"requiredPermitType\");",
+									"        pm.expect(element).to.have.property(\"location\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{test_tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{test_serverAddress}}/api/violations/fetchViolations?startDate=0&endDate=99999999999999",
+							"host": [
+								"{{test_serverAddress}}"
+							],
+							"path": [
+								"api",
+								"violations",
+								"fetchViolations"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "0"
+								},
+								{
+									"key": "endDate",
+									"value": "99999999999999"
+								}
+							]
+						},
+						"description": "Ensure that an administrator can use the /api/violations/fetchViolations endpoint for populating the heatmap and other similar views. Also ensure the returned result is an array of correctly formatted violation objects."
+					},
+					"response": []
+				}
+			],
+			"description": "This folder contains an ordered series of API calls to test the various endpoints! ",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3f987d0e-691a-4286-905f-c28c0e044664",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "719d14ab-6295-45e3-a4c7-0e05930c5a31",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "448a85a5-7d3d-4268-84b5-8c35652ee5f9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "80bebc7d-26ee-41da-b0a3-f129a5312a1c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

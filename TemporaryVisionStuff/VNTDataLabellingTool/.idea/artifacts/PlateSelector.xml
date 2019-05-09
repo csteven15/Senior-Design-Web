@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PlateSelector">
+    <output-path>$PROJECT_DIR$/out/artifacts/PlateSelector</output-path>
+    <root id="archive" name="PlateSelector.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/MANIFESTS/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="VNTDataLabellingTool" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/opencv-345.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

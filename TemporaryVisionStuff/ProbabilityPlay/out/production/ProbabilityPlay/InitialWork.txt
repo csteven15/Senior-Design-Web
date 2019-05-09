@@ -1,0 +1,89 @@
+So we want the probability that two of the 60,000 cars at UCF have conflicting license plate tags.
+
+Assume an alphabet size of 26 characters and tag length between 3 and 6 characters. This means PP=321271704 possible plates.
+
+Assume each car is randomly provided a plate tag.
+
+This largely reduces to the birthday problem, then. The probability that two people share the same plate is:
+
+1. Person A has some tag.
+2. Person B is selected and has a random tag. Probability that tag is same as person A is (1/PP)
+
+Thus, the probability that two people have different tags is 1-(1/PP) = 0.99999999688736982576
+
+There are nCr(60,000; 2) pairs of cars. The probability that all pairs have different tags is just (0.99999999688736982576)^(nCr(60000;2)) = 0.00368811075171852768 or 0.3688 percent.
+
+Yikes!
+
+However, not all 60,000 people have unique plate states, and thus not all 60,000 people actually have a 1/PP change of matching to someone else.
+
+So how many people actually do have this chance? We saw only 6.9% of plates are out-of-state. That's only 4142 cars. That leaves 55858 cars as Florida plates. Those 55858 are guaranteed to not overlap with each other.
+
+Now, let's assume that all 4142 cars are from "unique states" that is, they all have an equal chance of overlapping with each other and Florida plates.
+
+Alright, so then let's work this out:
+
+There are this many pairs of plates total:
+nCr(60000;2) = 1799970000 = TP
+
+There are this many pairs comparing a florida plate to a florida plate:
+nCr(55858;2) = 1560030153 = FF
+
+And this many pairs comparing an out of state plate to an out of state plate:
+nCr(4142; 2) = 8576011 = OO
+
+This leaves this many pairs comparing a florida plate to an out-of-state plate:
+1799970000-1560030153-8576011 = 231363836 = FO
+
+
+So given a random pair, the real probability that they overlap is:
+
+If they are florida plates, no probability that they overlap:
+
+((FF/TP)*0)+..
+
+If they're both out of state, then (1/PP) probability of overlap by our assumptions...
+
+..+((OO/TP)*(1/PP))+..
+
+If one's a florida and one's an out of state, (1/PP) again...
+
+..+((FO/TP)*(1/PP))
+
+So together, we have that
+((FF/TP)*0)+((OO/TP)*(1/PP))+((FO/TP)*(1/PP))
+
+is the probability that a pair of plates overlaps.
+
+= ((1560030153/1799970000)*0)+((8576011/1799970000)*(1/321271704))+((231363836/1799970000)*(1/321271704)) = 0.00000000041492025299
+
+So the probability that the pair doesn't overlap is 0.99999999958507974701.
+Repeat birthday problem and get:
+
+0.99999999958507974701^nCr(60000;2) = 0.47385969276560270591
+
+There's a 47% chance that ALL pairs do not overlap, given these assumptions. Thus there is a 53% chance that at least one plate overlaps, given these assumptions.
+
+Still yikes!
+
+But not all out of state plates have unique states!!! Let's kill that assumption!
+
+So what's the REAL probability that two out-of-state plates have the same tags instead of (1/PP)?
+Well, the first in the pair is provided. It has a state from 49 remaining non-florida states, and a tag. The probability, then, that the next plate has the same tag is the probability that it is from a different state AND has the same tag:
+(48/49)*(1/PP)
+
+So together, we have that
+((FF/TP)*0)+((OO/TP)*(48/49)*(1/PP))+((FO/TP)*(1/PP))
+= ((1560030153/1799970000)*0)+((8576011/1799970000)*(48/49)*(1/321271704))+((231363836/1799970000)*(1/321271704)) = 0.00000000041461759544
+
+Soo the probability that two plates dont match is 0.99999999958538240456
+
+0.99999999958538240456^nCr(60000;2)
+= 0.4741179097764112212
+
+That's still a 47% chance that they all do not overlap. Very very tiny improvement. Still 53% chance of at least one overlap.
+
+
+So honestly, the bottom line is that we think there should be at least one overlap on campus? But what about two?...
+
+Time to code.
